@@ -14,6 +14,17 @@ OK_BUTTON1 = "com.android.settings:id/button1"
 OK_BUTTON2 = "android:id/button1"
 
 
+def click_yes(device_ui):
+    if device_ui(resourceId=OK_BUTTON1).exists():
+        button = OK_BUTTON1
+    elif device_ui(resourceId=OK_BUTTON2).exists():
+        button = OK_BUTTON2
+    else: return
+    while device_ui(resourceId=button).exists():
+        device_ui(resourceId=button).click()
+
+
+
 def main():
     # Install apk to devices
     pass
@@ -24,11 +35,11 @@ def main():
     # Send intent for discoverable to devices
     adb.send_rpc_command(DEVICE_1_SERIAL, "discover") # adb.send_intent(DEVICE_1_SERIAL, adb.ACTION_DISCOVER)
     device1_ui = uiautomator2.connect(DEVICE_1_SERIAL)
-    device1_ui(resourceId=OK_BUTTON1).click()
+    click_yes(device1_ui) #device1_ui(resourceId=OK_BUTTON1).click()
 
     adb.send_rpc_command(DEVICE_2_SERIAL, "discover")
     device2_ui = uiautomator2.connect(DEVICE_2_SERIAL)
-    device2_ui(resourceId=OK_BUTTON2).click()
+    click_yes(device2_ui) #device2_ui(resourceId=OK_BUTTON2).click()
 
     # From device 1 send pair request to device 2
     adb.send_rpc_command(DEVICE_1_SERIAL, "pair", f'"{DEVICE_2_MAC}"') #adb.send_intent(DEVICE_1_SERIAL, adb.ACTION_PAIR, DEVICE_2_MAC)

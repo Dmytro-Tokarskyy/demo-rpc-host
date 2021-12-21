@@ -10,7 +10,8 @@ ACTION_COMMAND = "com.example.devicerpc.action.COMMAND"
 
 def install_apk(device, apk_path):
     command = f"adb -s {device} install {apk_path}"
-    print(subprocess.getoutput(command))
+    result = subprocess.getoutput(command)
+    print(result)
 
 
 def send_intent(device, action, data=""):
@@ -18,12 +19,14 @@ def send_intent(device, action, data=""):
         data = f' --es data "{data}"'
     command = f'adb -s {device} shell am broadcast -a {action}{data}'
     print(command)
-    print(subprocess.getoutput(command))
+    result = subprocess.getoutput(command)
+    print(result)
 
 
 def launch_app(device, package):
     command = f'adb -s {device} shell am start -n "{package}"/.MainActivity'
-    print(subprocess.getoutput(command))
+    result = subprocess.getoutput(command)
+    print(result)
 
 
 def send_rpc_command(device, method, params=""):
